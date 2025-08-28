@@ -8,52 +8,7 @@ import guaranteeIcon from "../assets/guarantee.png";
 import browserImg from "../assets/browser copy.png";
 
 
-import type { Service } from "../types/global";
-
-const servicesData: Service[] = [
-  {
-    title: "K-Style Seamless Gutters",
-    subtitle:
-      'Custom-fit style gutters (6", 7") designed for maximum water flow and minimal maintenance.',
-    points: [
-      "Precision measurements",
-      "Proper slope for drainage",
-      "Durable materials",
-    ],
-  },
-  {
-    title: "Industrial Gutters",
-    subtitle:
-      'Heavy-duty solutions for commercial properties and homes with high water volume including box gutters (7", 9").',
-    points: [
-      "Extra-large capacity",
-      "Reinforced hangers",
-      "Commercial-grade material",
-      "Box gutter options available",
-    ],
-  },
-  {
-    title: "Signature Half-Round Gutters",
-    subtitle:
-      "Our exclusive handcrafted half-round design that combines timeless elegance with superior functionality.",
-    points: [
-      "Artisan-crafted perfect curves",
-      "Enhanced laminar water flow",
-      "Premium materials with 25-year finish",
-      "Exclusive MGM craftsmanship",
-    ],
-  },
-  {
-    title: "Soffit Installation",
-    subtitle:
-      "Protect your roof's overhang while providing ventilation and aesthetic appeal with vented or solid options.",
-    points: [
-      "Vented and solid options available",
-      "Custom colors to match",
-      "Durable materials",
-    ],
-  },
-];
+import { servicesData } from "../data/services";
 
 export default function Services() {
   const themeColor = "#0086c5";
@@ -112,6 +67,8 @@ export default function Services() {
           <div className="w-24 h-1 mx-auto rounded-full" style={{ backgroundColor: themeColor }}></div>
         </div>
 
+
+
         {/* Service Cards */}
         <div className="grid gap-8 md:grid-cols-2">
           {servicesData.map((svc) => (
@@ -120,6 +77,8 @@ export default function Services() {
               className="relative bg-white/90 border-2 border-primary/10 rounded-2xl p-7 shadow-xl hover:shadow-2xl transition-all duration-300 group overflow-hidden"
               style={{ minHeight: 240 }}
             >
+              {/* Detalhe azul sólido no topo do card, igual ao Hero */}
+              <div className="absolute top-0 left-0 w-full h-1 bg-[#0086c5] rounded-full" />
               {/* Círculo decorativo */}
               <div className="absolute -top-8 -right-8 w-24 h-24 bg-primary/10 rounded-full blur-2xl opacity-60 group-hover:opacity-80 transition-all duration-300" />
               <h3 className="text-2xl font-bold text-primary mb-2 drop-shadow-sm group-hover:text-[#005e8c] transition-colors duration-300">
@@ -136,12 +95,11 @@ export default function Services() {
                   </li>
                 ))}
               </ul>
-              <span className="mt-4 text-sm text-primary/80 italic">* All colors are available for custom projects</span>
             </div>
           ))}
         </div>
 
-        {/* Imagem com lupa - layout original restaurado */}
+        {/* Browse our wide range of color options */}
         <div className="flex flex-col items-center my-16">
           <h3 className="text-2xl md:text-3xl font-bold text-primary mb-2 text-center">Browse our wide range of color options</h3>
           <p className="text-lg text-[#444] mb-6 text-center max-w-xl">Discover the ideal hue that matches your style.</p>
@@ -181,8 +139,8 @@ export default function Services() {
         </div>
 
         {/* Icons Legend */}
-  <div className="flex flex-row justify-center items-center gap-8 mt-16 overflow-x-auto whitespace-nowrap">
-          <div className="flex flex-col items-center">
+  <div className="flex flex-row justify-center gap-2 md:gap-8 mt-16 px-2 w-auto">
+          <div className="flex flex-col items-center shrink-0">
             <img
               src={qualityIcon}
               alt="High Quality"
@@ -192,7 +150,7 @@ export default function Services() {
               High Quality
             </span>
           </div>
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col items-center shrink-0">
             <img
               src={insuranceIcon}
               alt="Insured & Licensed"
@@ -202,7 +160,7 @@ export default function Services() {
               Insured & Licensed
             </span>
           </div>
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col items-center shrink-0">
             <img
               src={guaranteeIcon}
               alt="Warranty 10 Years"
@@ -213,6 +171,60 @@ export default function Services() {
             </span>
           </div>
         </div>
+
+        {/* Lista de cidades atendidas */}
+        <div className="mt-12 text-center">
+          <h3 className="text-2xl font-bold text-[#222] mb-2">We Service Florida</h3>
+          <p className="mb-6 text-[#444]">Atendemos as principais cidades da região:</p>
+          <div className="flex flex-wrap justify-center gap-2 mb-8">
+            {[
+              "Tampa", "Brandon", "Lakeland", "Wesley Chapel", "Plant City", "Zephyrhills", "Lithia", "Seffner", "Temple Terrace", "Thonotosassa", "Riverview", "Clearwater", "Saint Petersburg", "Apollo Beach", "Bradenton", "Ruskin", "Sun City Center", "Land O Lakes", "Tarpon Springs", "Palm Harbour", "Sarasota", "Venice", "Lakewood Ranch", "Englewood", "Tampa Bay", "Palmetto", "Ellenton"
+            ].map(city => (
+              <span key={city} className="px-4 py-1 rounded-full bg-primary/10 text-[#222] font-medium shadow-sm">{city}</span>
+            ))}
+            <span className="px-4 py-1 rounded-full bg-primary text-white font-semibold shadow">And more…</span>
+          </div>
+          <a
+            href="#contact"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-primary text-white font-semibold shadow-md hover:bg-[#005e8c] transition-colors duration-200 text-lg mt-2"
+            style={{ boxShadow: '0 2px 8px 0 #0086c533' }}
+          >
+            <span className="font-semibold">Contact Us</span>
+            <span
+              className="hidden sm:inline"
+              style={{
+                display: 'inline-block',
+                animation: 'phoneWiggle 1.2s ease-in-out infinite',
+                position: 'relative'
+              }}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} style={{ color: 'white' }}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+              </svg>
+            </span>
+          <style>{`
+            @keyframes phoneWiggle {
+              0% { transform: rotate(0deg); }
+              10% { transform: rotate(-15deg); }
+              20% { transform: rotate(15deg); }
+              30% { transform: rotate(-10deg); }
+              40% { transform: rotate(10deg); }
+              50% { transform: rotate(-5deg); }
+              60% { transform: rotate(5deg); }
+              70% { transform: rotate(0deg); }
+              100% { transform: rotate(0deg); }
+            }
+          `}</style>
+          </a>
+          <style>{`
+            @keyframes arrowMove {
+              0% { left: 0; }
+              50% { left: 10px; }
+              100% { left: 0; }
+            }
+          `}</style>
+        </div>
+
       </div>
     </section>
   );

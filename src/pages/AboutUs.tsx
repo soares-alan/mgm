@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
-import type { AboutUsProps, Pill, Testimonial } from "../types/global";
-import aboutUsImg from "../assets/aboutus copy.png";
+import type { AboutUsProps, Testimonial } from "../types/global";
+import { defaultPillars, testimonials, aboutParagraphs, aboutUsImg } from "../data/about";
+import commitmentIcon from "../assets/Commitment.webp";
+import excellenceIcon from "../assets/Excellence.webp";
+import dedicationIcon from "../assets/dedication.webp";
 
 /**
  * AboutUs - Modern, clean, and performance-optimized layout
@@ -14,142 +17,6 @@ import aboutUsImg from "../assets/aboutus copy.png";
  */
 
 /* ---------- Data / Types ---------- */
-const defaultPillars = (iconColor = "text-[#0086c5]"): Pill[] => [
-  {
-    title: "Commitment",
-    text:
-      "We take every job seriously, providing precise installations that protect your home from leaks, mold, and costly water damage.",
-    icon: (
-      <svg
-        className={`w-7 h-7 ${iconColor}`}
-        fill="none"
-        stroke="currentColor"
-        strokeWidth={1.5}
-        viewBox="0 0 24 24"
-        xmlns="http://www.w3.org/2000/svg"
-        aria-hidden
-      >
-        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-      </svg>
-    ),
-  },
-  {
-    title: "Excellence",
-    text:
-      "By using only high quality materials and modern techniques, we deliver long lasting results with a flawless finish that enhances both the protection and curb appeal of your property.",
-    icon: (
-      <svg
-        className={`w-7 h-7 ${iconColor}`}
-        fill="none"
-        stroke="currentColor"
-        strokeWidth={1.5}
-        viewBox="0 0 24 24"
-        xmlns="http://www.w3.org/2000/svg"
-        aria-hidden
-      >
-        <path strokeLinecap="round" strokeLinejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
-      </svg>
-    ),
-  },
-  {
-    title: "Dedication",
-    text:
-      "Your satisfaction is our priority. From the first call to the final inspection, our dedicated team provides personalized service and tailored solutions, always striving to exceed expectations.",
-    icon: (
-      <svg
-        className={`w-7 h-7 ${iconColor}`}
-        fill="none"
-        stroke="currentColor"
-        strokeWidth={1.5}
-        viewBox="0 0 24 24"
-        xmlns="http://www.w3.org/2000/svg"
-        aria-hidden
-      >
-        <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
-      </svg>
-    ),
-  },
-];
-
-// Reviews para o carrossel
-const testimonials = [
-  {
-    name: "Maria Silva",
-    location: "Miami, FL",
-    rating: 5,
-    text: "MGM Aluminum installed gutters on my house with great precision. The work was flawless and they left everything clean when they finished. Highly recommended!",
-    date: "2 months ago"
-  },
-  {
-    name: "John Davis",
-    location: "Orlando, FL",
-    rating: 5,
-    text: "Excellent service from start to finish. The team was punctual, professional, and the work was perfect. The gutters work flawlessly during heavy rains.",
-    date: "1 month ago"
-  },
-  {
-    name: "Ana Rodriguez",
-    location: "Tampa, FL",
-    rating: 5,
-    text: "I hired MGM to install gutters in my new house and I was impressed. The service was great and the end result exceeded my expectations.",
-    date: "3 weeks ago"
-  },
-  {
-    name: "Robert Johnson",
-    location: "St. Petersburg, FL",
-    rating: 5,
-    text: "Very professional team! They completed the installation ahead of schedule and at a competitive price. Their attention to detail is impressive.",
-    date: "1 month ago"
-  },
-  {
-    name: "Emily Parker",
-    location: "Clearwater, FL",
-    rating: 5,
-    text: "Our home looks so much better with the new seamless gutters. We've had heavy rain since installation and no leaks whatsoever. Outstanding service!",
-    date: "2 months ago"
-  },
-  {
-    name: "Michael Thompson",
-    location: "Jacksonville, FL",
-    rating: 4,
-    text: "MGM team was very knowledgeable about gutter systems. They helped me choose the right style and color for my home. Installation was quick and professional.",
-    date: "3 months ago"
-  },
-  {
-    name: "Sarah Wilson",
-    location: "Fort Lauderdale, FL",
-    rating: 5,
-    text: "After a hurricane damaged our gutters, MGM came quickly to assess and replace them. Their quick response and quality work saved us from potential water damage.",
-    date: "2 weeks ago"
-  },
-  {
-    name: "Carlos Mendez",
-    location: "West Palm Beach, FL",
-    rating: 5,
-    text: "The team at MGM took the time to explain the different options available. No pressure sales, just honest advice. The installation was fast and the result is beautiful.",
-    date: "1 month ago"
-  },
-  {
-    name: "Jennifer Adams",
-    location: "Naples, FL",
-    rating: 5,
-    text: "Our custom home needed a specialized gutter solution. MGM delivered exactly what we needed with precision and professionalism. Worth every penny.",
-    date: "6 weeks ago"
-  },
-  {
-    name: "David Miller",
-    location: "Sarasota, FL",
-    rating: 4,
-    text: "We've used MGM for both our primary residence and rental property. Both times they provided excellent service at reasonable prices. Very reliable company.",
-    date: "2 months ago"
-  }
-];
-
-const aboutParagraphs = [
-  "The story of MGM Aluminum began with humble beginnings. Our founder started out as a simple helper on job sites, learning the trade step by step. It was during those early days that he discovered his true passion: gutter installation and home protection.",
-  "With dedication, hard work, and a vision to do better, he gradually built his own company from the ground up. What started as one man's dream has now grown into a trusted business that has served more than 18,000 homes across Florida since 2017.",
-  "At MGM Aluminum, we believe that passion and experience make the difference. That is why our team is 100 percent our own staff — never outsourced, ensuring the same commitment to quality and care that our founder had on his very first job.",
-];
 
 /* ---------- Presentational components ---------- */
 
@@ -316,7 +183,8 @@ function TestimonialCarousel({ testimonials, themeColor }: { testimonials: Testi
                 setTimeout(() => setIsAnimating(false), 500);
               }}
               aria-label={`View testimonial ${index + 1}`}
-            />
+            >
+            </button>
           ))}
         </div>
       </div>
@@ -411,6 +279,7 @@ function TestimonialCarousel({ testimonials, themeColor }: { testimonials: Testi
 }
 
 /* ---------- Main component ---------- */
+
 function AboutUs({
   imageSrc = aboutUsImg,
   className = "",
@@ -420,6 +289,12 @@ function AboutUs({
   themeColor?: string;
 }) {
   const pillars = defaultPillars();
+  // WebP icons for each pillar (order must match pillars array)
+  const icons = [
+    commitmentIcon,
+    excellenceIcon,
+    dedicationIcon,
+  ];
   // Use provided testimonials or fall back to default ones
   const displayTestimonials = externalTestimonials || testimonials;
 
@@ -525,17 +400,17 @@ function AboutUs({
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {pillars.map((p) => (
+              {pillars.map((p, i) => (
                 <div 
                   key={p.title} 
                   className="bg-white rounded-xl shadow-md p-8 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 flex flex-col"
                   style={{ borderTop: `4px solid ${themeColor}` }}
                 >
                   <div 
-                    className="w-16 h-16 rounded-lg flex items-center justify-center mb-6 mx-auto"
+                    className="w-16 h-16 rounded-lg flex items-center justify-center mb-6 mx-auto bg-white"
                     style={{ backgroundColor: `${themeColor}10` }}
                   >
-                    <div style={{ color: themeColor }}>{p.icon}</div>
+                    <img src={icons[i]} alt={p.title + ' icon'} className="w-10 h-10 object-contain" loading="lazy" />
                   </div>
                   <h4 className="font-semibold text-xl text-center mb-3">{p.title}</h4>
                   <p className="text-gray-600 text-center">{p.text}</p>

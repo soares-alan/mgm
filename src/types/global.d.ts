@@ -1,3 +1,14 @@
+export type ProjectCardProps = {
+  title: string;
+  description: string;
+  images: string[];
+  isActive: boolean;
+};
+export type Project = {
+  title: string;
+  description: string;
+  images: string[];
+};
 
 export interface Service {
   title: string;
