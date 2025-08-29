@@ -133,7 +133,7 @@ export default function Projects() {
   }, [numCards, dominoDelay]);
 
   return (
-    <section id="projects" className="w-full bg-background py-16 relative overflow-hidden">
+  <section id="projects" className="w-full bg-background py-16 relative overflow-hidden">
       {/* Blobs decorativos estilo Services, mas em posições diferentes */}
       <div className="absolute -top-24 right-0 w-72 h-72 rounded-full opacity-10 z-0" style={{ backgroundColor: '#0086c5' }} />
       <div className="absolute top-1/2 -left-20 w-40 h-40 rounded-full opacity-10 z-0" style={{ backgroundColor: '#4C6EF5' }} />
@@ -173,6 +173,6 @@ export default function Projects() {
           Discover our seamless gutter, soffit, and fascia installations—completed with precision and attention to detail. Every project reflects our experience, quality, and commitment to protecting and enhancing homes across Florida.
         </p>
       </div>
-    </section>
+  </section>
   );
 }

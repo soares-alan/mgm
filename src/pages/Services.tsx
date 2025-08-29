@@ -2,31 +2,104 @@
 
 import React, { useRef, useState } from "react";
 
-import qualityIcon from "../assets/quality.png";
-import insuranceIcon from "../assets/insurance.png";
-import guaranteeIcon from "../assets/guarantee.png";
-import browserImg from "../assets/browser copy.png";
+import qualityIcon from "../assets/quality.webp";
+import insuranceIcon from "../assets/insurance.webp";
+import guaranteeIcon from "../assets/guarantee.webp";
+import browserImg from "../assets/color chart.webp";
 
 
 import { servicesData } from "../data/services";
+
 
 export default function Services() {
   const themeColor = "#0086c5";
 
   // Magnifier state and logic
-  const magnifierSize = 160; // px
-  const zoom = 2.2;
+  const [magnifierSize, setMagnifierSize] = useState(120);
+  const [zoom, setZoom] = useState(3);
   const [showMagnifier, setShowMagnifier] = useState(false);
+  const [shouldClose, setShouldClose] = useState(false);
   const [magnifierPos, setMagnifierPos] = useState({ x: 0, y: 0 });
   const imgRef = useRef<HTMLImageElement | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  React.useEffect(() => {
+    setIsMobile(
+      typeof window !== 'undefined' &&
+      ('ontouchstart' in window || navigator.maxTouchPoints > 0)
+    );
+  }, []);
+
+  // Ajusta zoom e tamanho do magnifier para mobile
+  React.useEffect(() => {
+    if (isMobile) {
+      setMagnifierSize(80);
+      setZoom(4.5);
+    } else {
+      setMagnifierSize(120);
+      setZoom(3);
+    }
+  }, [isMobile]);
+
+  // Ajusta zoom e tamanho do magnifier para mobile
+  React.useEffect(() => {
+    if (isMobile) {
+      setMagnifierSize(80);
+      setZoom(4.5);
+    } else {
+      setMagnifierSize(120);
+      setZoom(3);
+    }
+  }, [isMobile]);
 
   function handleMouseMove(e: React.MouseEvent<HTMLImageElement, MouseEvent>) {
     if (!imgRef.current) return;
-    const { left, top } = imgRef.current.getBoundingClientRect();
-    // Calcula a posição relativa ao tamanho real da imagem renderizada
-    const x = e.clientX - left;
-    const y = e.clientY - top;
+    const { left, top, width, height } = imgRef.current.getBoundingClientRect();
+    let x = e.clientX - left;
+    let y = e.clientY - top;
+    // Limitar o centro do magnifier para não ultrapassar as bordas
+    const radius = magnifierSize / 2 / zoom;
+    x = Math.max(radius, Math.min(x, width - radius));
+    y = Math.max(radius, Math.min(y, height - radius));
     setMagnifierPos({ x, y });
+  }
+
+  function handleTouchStart(e: React.TouchEvent<HTMLImageElement>) {
+    if (!imgRef.current) return;
+    if (!showMagnifier) {
+      const touch = e.touches[0];
+      const { left, top, width, height } = imgRef.current.getBoundingClientRect();
+      let x = touch.clientX - left;
+      let y = touch.clientY - top;
+      const radius = magnifierSize / 2 / zoom;
+      x = Math.max(radius, Math.min(x, width - radius));
+      y = Math.max(radius, Math.min(y, height - radius));
+      setMagnifierPos({ x, y });
+      setShowMagnifier(true);
+      setShouldClose(false);
+    } else {
+      setShouldClose(true);
+    }
+  }
+
+  function handleTouchMove(e: React.TouchEvent<HTMLImageElement>) {
+    if (!imgRef.current || !showMagnifier) return;
+    setShouldClose(false); // Se o usuário moveu, não fecha
+    const touch = e.touches[0];
+    const { left, top, width, height } = imgRef.current.getBoundingClientRect();
+    let x = touch.clientX - left;
+    let y = touch.clientY - top;
+    const radius = magnifierSize / 2 / zoom;
+    x = Math.max(radius, Math.min(x, width - radius));
+    y = Math.max(radius, Math.min(y, height - radius));
+    setMagnifierPos({ x, y });
+  }
+
+  function handleTouchEnd() {
+    if (shouldClose) {
+      setShowMagnifier(false);
+      setShouldClose(false);
+    }
   }
 
   return (
@@ -39,7 +112,7 @@ export default function Services() {
   {/* Blobs decorativos variados e um azul escuro */}
   <div className="absolute -top-32 -left-20 w-72 h-72 rounded-full opacity-10" style={{ backgroundColor: themeColor }} />
   <div className="absolute top-1/3 right-0 w-40 h-40 rounded-full opacity-5" style={{ backgroundColor: themeColor }} />
-  <div className="absolute top-1/2 left-1/2 w-24 h-24 rounded-full opacity-20" style={{ backgroundColor: themeColor }} />
+  {/* <div className="absolute top-1/2 left-1/2 w-24 h-24 rounded-full opacity-20" style={{ backgroundColor: themeColor }} /> */}
   <div className="absolute bottom-0 left-10 w-32 h-32 rounded-full opacity-10" style={{ backgroundColor: themeColor }} />
   <div className="absolute bottom-10 right-10 w-44 h-44 rounded-full opacity-10" style={{ backgroundColor: themeColor }} />
   {/* Círculo azul escuro para contraste */}
@@ -104,15 +177,20 @@ export default function Services() {
           <h3 className="text-2xl md:text-3xl font-bold text-primary mb-2 text-center">Browse our wide range of color options</h3>
           <p className="text-lg text-[#444] mb-6 text-center max-w-xl">Discover the ideal hue that matches your style.</p>
           <div className="relative w-full flex justify-center">
+            {/* Blob decorativo atrás da imagem, mais acima e fora */}
+            <div className="absolute -top-24 -left-24 w-64 h-64 rounded-full opacity-20 z-0" style={{ backgroundColor: themeColor }} />
             <img
               ref={imgRef}
               src={browserImg}
               alt="Color Options"
-              className="w-full max-w-4xl rounded-2xl object-contain shadow-xl border border-primary/10 cursor-zoom-in"
-              style={{ background: 'linear-gradient(90deg, #f7fafc 60%, #e3f2fd 100%)' } as React.CSSProperties}
-              onMouseEnter={() => setShowMagnifier(true)}
-              onMouseLeave={() => setShowMagnifier(false)}
-              onMouseMove={handleMouseMove}
+              className="w-full max-w-4xl rounded-tl-[48px] rounded-br-[48px] rounded-tr-md rounded-bl-md object-contain border-2 border-primary cursor-zoom-in relative z-10"
+              style={{ background: 'none' } as React.CSSProperties}
+              onMouseEnter={!isMobile ? () => setShowMagnifier(true) : undefined}
+              onMouseLeave={!isMobile ? () => setShowMagnifier(false) : undefined}
+              onMouseMove={!isMobile ? handleMouseMove : undefined}
+              onTouchStart={isMobile ? handleTouchStart : undefined}
+              onTouchMove={isMobile ? handleTouchMove : undefined}
+              onTouchEnd={isMobile ? handleTouchEnd : undefined}
             />
             {/* Magnifier glass */}
             {showMagnifier && imgRef.current && (
@@ -120,8 +198,10 @@ export default function Services() {
                 style={{
                   position: 'absolute',
                   pointerEvents: 'none',
-                  left: `${magnifierPos.x - magnifierSize * .25}px`,
-                  top: `${magnifierPos.y - magnifierSize * .5}px`,
+                  left: isMobile
+                    ? `${magnifierPos.x - magnifierSize / 2}px`
+                    : `${magnifierPos.x + magnifierSize * 0.1}px`,
+                  top: `${magnifierPos.y - magnifierSize * 0.5}px`,
                   width: magnifierSize,
                   height: magnifierSize,
                   borderRadius: '50%',
@@ -129,7 +209,9 @@ export default function Services() {
                   border: '3px solid #0086c5',
                   background: `url(${imgRef.current.src}) no-repeat`,
                   backgroundSize: `${imgRef.current.width * zoom}px ${imgRef.current.height * zoom}px`,
-                  backgroundPosition: `-${magnifierPos.x * zoom - magnifierSize / 2}px -${magnifierPos.y * zoom - magnifierSize / 2}px`,
+                  backgroundPosition: isMobile
+                    ? `-${magnifierPos.x * zoom - magnifierSize / 2}px -${magnifierPos.y * zoom - magnifierSize / 2}px`
+                    : `-${magnifierPos.x * zoom - magnifierSize / 2}px -${magnifierPos.y * zoom - magnifierSize / 2}px`,
                   zIndex: 30,
                   transition: 'box-shadow 0.2s',
                 } as React.CSSProperties}
@@ -173,6 +255,7 @@ export default function Services() {
         </div>
 
         {/* Lista de cidades atendidas */}
+
         <div className="mt-12 text-center">
           <h3 className="text-2xl font-bold text-[#222] mb-2">We Service Florida</h3>
           <p className="mb-6 text-[#444]">Atendemos as principais cidades da região:</p>

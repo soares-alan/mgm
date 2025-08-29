@@ -3,6 +3,8 @@ import HeroWithForm from '../components/HeroWithForm';
 import AboutUs from './AboutUs';
 import Services from './Services';
 import Projects from './Projects';
+import FAQ from '../components/FAQ';
+import { faqs } from '../data/faq';
 
 function Home() {
 	return (
@@ -12,6 +14,7 @@ function Home() {
 			<AboutUs />
 			<Services />
 			<Projects />
+			<FAQ faqs={faqs} />
 		</div>
 	);
 }

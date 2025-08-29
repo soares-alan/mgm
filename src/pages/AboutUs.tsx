@@ -301,7 +301,7 @@ function AboutUs({
   return (
     <section
       id="about"
-      className={`w-full relative py-12 md:py-20 ${className}`}
+      className={`w-full relative py-12 md:py-20 border-t-4 border-b-4 border-primary ${className}`}
       aria-labelledby="aboutus-title"
       role="region"
       style={{ scrollMarginTop: "96px" }}
@@ -436,6 +436,7 @@ function AboutUs({
             </div>
           </div>
         </div>
+
       </div>
     </section>
   );
