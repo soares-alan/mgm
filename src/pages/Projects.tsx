@@ -1,21 +1,39 @@
-
-
 import React from "react";
 import { projects } from "../data/projects";
-
 import type { ProjectCardProps } from "../types/global";
+
+// SVG Logo dos Triângulos como componente reutilizável - AGORA COM BASE MAIS BAIXA NO TRIÂNGULO DO MEIO!
+function TrianglesLogoSVG({ className = "", style = {} }: { className?: string; style?: React.CSSProperties }) {
+  return (
+    <svg
+      className={className}
+      style={style}
+      viewBox="0 0 400 250"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      {/* Triângulo da esquerda */}
+      <polygon points="32,218 120,70 208,218" stroke="#222" strokeWidth="7" fill="none" />
+      {/* Triângulo da direita */}
+      <polygon points="192,218 280,70 368,218" stroke="#222" strokeWidth="7" fill="none" />
+      {/* Triângulo do meio com base mais baixa! */}
+      <polygon points="80,235 200,35 320,235" stroke="#0086c5" strokeWidth="13" fill="none" />
+    </svg>
+  );
+}
 
 function ProjectCard({ title, description, images, isActive }: ProjectCardProps) {
   const [idx, setIdx] = React.useState(0);
   const [showModal, setShowModal] = React.useState(false);
   const [modalIdx, setModalIdx] = React.useState(0);
-  // Pausar slideshow quando modal está aberto
+
   React.useEffect(() => {
     if (showModal) return;
     if (!isActive) return;
     setIdx(i => (i + 1) % images.length);
   }, [isActive, showModal, images.length]);
-  // Ao abrir o modal, manter a imagem fixa e permitir navegação
+
   const openModal = () => {
     setModalIdx(idx);
     setShowModal(true);
@@ -29,6 +47,7 @@ function ProjectCard({ title, description, images, isActive }: ProjectCardProps)
     e.stopPropagation();
     setModalIdx(i => (i + 1) % images.length);
   };
+
   return (
     <>
       <div className="group bg-white border border-primary/10 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden flex flex-col">
@@ -110,6 +129,7 @@ function ProjectCard({ title, description, images, isActive }: ProjectCardProps)
     </>
   );
 }
+
 // FadeIn animation for modal (inserido dinamicamente se não existir)
 if (typeof window !== 'undefined' && !document.getElementById('fadeInKeyframes')) {
   const style = document.createElement('style');
@@ -117,7 +137,6 @@ if (typeof window !== 'undefined' && !document.getElementById('fadeInKeyframes')
   style.innerHTML = `@keyframes fadeIn { from { opacity: 0; transform: scale(0.97); } to { opacity: 1; transform: scale(1); } } .animate-fadeIn { animation: fadeIn 0.3s ease; }`;
   document.head.appendChild(style);
 }
-
 
 export default function Projects() {
   // Parâmetros do efeito dominó
@@ -133,12 +152,24 @@ export default function Projects() {
   }, [numCards, dominoDelay]);
 
   return (
-  <section id="projects" className="w-full bg-background py-16 relative overflow-hidden">
-      {/* Blobs decorativos estilo Services, mas em posições diferentes */}
-      <div className="absolute -top-24 right-0 w-72 h-72 rounded-full opacity-10 z-0" style={{ backgroundColor: '#0086c5' }} />
-      <div className="absolute top-1/2 -left-20 w-40 h-40 rounded-full opacity-10 z-0" style={{ backgroundColor: '#4C6EF5' }} />
-      <div className="absolute bottom-0 right-10 w-32 h-32 rounded-full opacity-10 z-0" style={{ backgroundColor: '#0086c5' }} />
-      <div className="absolute bottom-10 left-1/4 w-44 h-44 rounded-full opacity-10 z-0" style={{ backgroundColor: '#4C6EF5' }} />
+    <section id="projects" className="w-full bg-background py-16 relative overflow-hidden">
+      {/* LOGO ENFEITE DE FUNDO, BASE DO TRIÂNGULO AZUL MAIS BAIXA */}
+      <TrianglesLogoSVG
+        className="absolute top-10 right-8 w-28 opacity-10 z-0 pointer-events-none select-none"
+        style={{ transform: "rotate(8deg)" }}
+      />
+      <TrianglesLogoSVG
+        className="absolute bottom-12 left-8 w-40 opacity-5 z-0 pointer-events-none select-none"
+        style={{ transform: "rotate(-12deg)" }}
+      />
+      <TrianglesLogoSVG
+        className="absolute top-1/3 left-12 w-24 opacity-10 z-0 pointer-events-none select-none"
+        style={{ transform: "rotate(-22deg)" }}
+      />
+      <TrianglesLogoSVG
+        className="absolute bottom-24 right-16 w-24 opacity-10 z-0 pointer-events-none select-none"
+        style={{ transform: "rotate(16deg) scaleX(-1)" }}
+      />
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-10 md:mb-14">
           <div className="inline-flex items-center justify-center mb-3">
@@ -158,7 +189,7 @@ export default function Projects() {
             Discover some of our completed projects across Florida.
           </p>
         </div>
-  <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
           {projects.map(({ title, description, images }, i) => (
             <ProjectCard
               key={title}
@@ -173,6 +204,6 @@ export default function Projects() {
           Discover our seamless gutter, soffit, and fascia installations—completed with precision and attention to detail. Every project reflects our experience, quality, and commitment to protecting and enhancing homes across Florida.
         </p>
       </div>
-  </section>
+    </section>
   );
 }

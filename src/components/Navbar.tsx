@@ -1,11 +1,21 @@
 import { useState, useEffect } from 'react';
 import logo from '../assets/logo.webp';
 
+
+const SECTIONS = [
+  { id: 'home', label: 'Home' },
+  { id: 'about', label: 'About Us' },
+  { id: 'services', label: 'Services' },
+  { id: 'projects', label: 'Projects' },
+];
+
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState('home');
 
   // Função para detectar scroll e aplicar efeito de shrink
+
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 20) {
@@ -13,11 +23,24 @@ const Navbar = () => {
       } else {
         setIsScrolled(false);
       }
+
+      // Detecta seção ativa
+      let current = 'home';
+      for (const section of SECTIONS) {
+        const el = document.getElementById(section.id);
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          if (rect.top <= 120 && rect.bottom > 120) {
+            current = section.id;
+            break;
+          }
+        }
+      }
+      setActiveSection(current);
     };
 
-    window.addEventListener('scroll', handleScroll);
-    
-    // Cleanup do event listener
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll(); // inicializa
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
@@ -36,7 +59,7 @@ const Navbar = () => {
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} style={{ color: '#fff' }}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
             </svg>
-            <span style={{ color: '#fff' }}>Call 727-270-1358</span>
+            <span style={{ color: '#fff' }}>Call (727) 270-1358</span>
           </a>
         </div>
       </div>
@@ -61,46 +84,21 @@ const Navbar = () => {
 
         {/* Links de navegação - Visíveis apenas em desktop */}
         <div className="hidden md:flex items-center space-x-8">
-          <a 
-            href="#home" 
-            className="font-medium transition-colors outline-none focus-visible:ring-2 focus-visible:ring-primary"
-            style={{ color: '#222222' }}
-            onMouseOver={e => (e.currentTarget.style.color = '#0086c5')}
-            onMouseOut={e => (e.currentTarget.style.color = '#222222')}
-            onFocus={e => (e.currentTarget.style.color = '#0086c5')}
-            onBlur={e => (e.currentTarget.style.color = '#222222')}
-            tabIndex={0}
-          >Home</a>
-          <a 
-            href="#about" 
-            className="font-medium transition-colors outline-none focus-visible:ring-2 focus-visible:ring-primary"
-            style={{ color: '#222222' }}
-            onMouseOver={e => (e.currentTarget.style.color = '#0086c5')}
-            onMouseOut={e => (e.currentTarget.style.color = '#222222')}
-            onFocus={e => (e.currentTarget.style.color = '#0086c5')}
-            onBlur={e => (e.currentTarget.style.color = '#222222')}
-            tabIndex={0}
-          >About Us</a>
-          <a 
-            href="#services" 
-            className="font-medium transition-colors outline-none focus-visible:ring-2 focus-visible:ring-primary"
-            style={{ color: '#222222' }}
-            onMouseOver={e => (e.currentTarget.style.color = '#0086c5')}
-            onMouseOut={e => (e.currentTarget.style.color = '#222222')}
-            onFocus={e => (e.currentTarget.style.color = '#0086c5')}
-            onBlur={e => (e.currentTarget.style.color = '#222222')}
-            tabIndex={0}
-          >Services</a>
-          <a 
-            href="#projects" 
-            className="font-medium transition-colors outline-none focus-visible:ring-2 focus-visible:ring-primary"
-            style={{ color: '#222222' }}
-            onMouseOver={e => (e.currentTarget.style.color = '#0086c5')}
-            onMouseOut={e => (e.currentTarget.style.color = '#222222')}
-            onFocus={e => (e.currentTarget.style.color = '#0086c5')}
-            onBlur={e => (e.currentTarget.style.color = '#222222')}
-            tabIndex={0}
-          >Projects</a>
+          {SECTIONS.map(section => (
+            <a
+              key={section.id}
+              href={`#${section.id}`}
+              className="font-medium transition-colors outline-none focus-visible:ring-2 focus-visible:ring-primary"
+              style={{ color: activeSection === section.id ? '#0086c5' : '#222222' }}
+              onMouseOver={e => (e.currentTarget.style.color = '#0086c5')}
+              onMouseOut={e => (e.currentTarget.style.color = activeSection === section.id ? '#0086c5' : '#222222')}
+              onFocus={e => (e.currentTarget.style.color = '#0086c5')}
+              onBlur={e => (e.currentTarget.style.color = activeSection === section.id ? '#0086c5' : '#222222')}
+              tabIndex={0}
+            >
+              {section.label}
+            </a>
+          ))}
         </div>
 
         {/* Telefone de contato - Alinhado à direita */}
@@ -125,7 +123,7 @@ const Navbar = () => {
               />
             </svg>
             <span className={`font-medium ${isScrolled ? 'text-sm' : 'text-base'}`}>
-              Call 727-270-1358
+              Call (727) 270-1358
             </span>
           </a>
         </div>

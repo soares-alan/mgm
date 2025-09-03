@@ -9,6 +9,7 @@ export const servicesData: Service[] = [
       "Precision measurements",
       "Proper slope for drainage",
       "Durable materials",
+       "Recommended for residential homes, for shingle or tile roofs.",
     ],
   },
   {
@@ -34,13 +35,13 @@ export const servicesData: Service[] = [
     ],
   },
   {
-    title: "Soffit Installation",
+    title: "Soffit & Fascia Installation",
     subtitle:
       "Protect your roof's overhang while providing ventilation and aesthetic appeal with vented or solid options.",
     points: [
       "Vented and solid options available",
       "Custom colors to match",
-      "Durable materials",
+       "Durable materials",
     ],
   },
 ];

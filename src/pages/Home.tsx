@@ -9,6 +9,8 @@ import { faqs } from '../data/faq';
 function Home() {
 	return (
 		<div className="min-h-screen bg-background">
+			{/* Anchor para scroll suave do menu Home */}
+			<div id="home" style={{ position: 'absolute', top: 0, left: 0, width: 0, height: 0 }} aria-hidden="true" />
 			<Navbar />
 			<HeroWithForm preventBodyOverflow={false} />
 			<AboutUs />

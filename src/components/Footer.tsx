@@ -11,7 +11,7 @@ export default function Footer() {
           <div className="flex-1 flex flex-col items-center md:items-start mb-6 md:mb-0">
             <img src={logo} alt="MGM Logo" className="h-14 mb-3" />
             <span className="italic text-sm text-white/90 text-center md:text-left block max-w-xs">
-              Protecting Florida homes with seamless precision since 1998.
+              Protecting Florida homes with seamless precision since 2017.
             </span>
           </div>
 
@@ -30,11 +30,11 @@ export default function Footer() {
               <a href="#services" className="hover:underline text-sm">Services</a>
               <a href="#contact" className="hover:underline text-sm">Contact</a>
             </nav>
-            <div className="flex gap-3 mt-2">
-              <a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="hover:text-blue-200">
+            <div className="flex gap-3 mt-2 mb-4">
+              <a href="https://www.facebook.com/share/175rBi8fp2/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="hover:text-blue-200">
                 <FaFacebookF size={20} />
               </a>
-              <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="hover:text-blue-200">
+              <a href="https://www.instagram.com/mgmaluminum?igsh=Zjd6MGwxNjNlajJ5" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="hover:text-blue-200">
                 <FaInstagram size={20} />
               </a>
             </div>

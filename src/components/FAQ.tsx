@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import faqIcon from "../assets/faq.webp";
-import type { FAQItem } from "../types/faq";
+import type { FAQItem } from "../types/global";
 
 interface FAQProps {
   faqs: FAQItem[];
@@ -21,7 +21,9 @@ export default function FAQ({ faqs }: FAQProps) {
           </span>
           <h2 id="faq-title" className="text-3xl md:text-4xl font-bold text-primary drop-shadow-sm">FAQs</h2>
         </div>
-        <p className="text-base text-gray-700 max-w-full truncate mx-auto">Your questions about gutters, soffit, and fascia—answered simply.</p>
+       <p className="text-base text-gray-700 max-w-xl mx-auto text-center">
+  Your questions about gutters, soffit, and fascia—answered simply.
+</p>
       </div>
       <div className="max-w-2xl mx-auto">
         {faqs.map((faq, idx) => (

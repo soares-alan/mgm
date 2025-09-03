@@ -1,3 +1,15 @@
+// Props para o botão flutuante de ligação telefônica
+export type PhoneFloatingButtonProps = {
+  phoneNumber: string; // Número no formato tel: ou apenas dígitos
+  displayNumber?: string; // Número formatado para exibição
+  tooltip?: string;
+  className?: string;
+};
+
+export interface FAQItem {
+  question: string;
+  answer: string;
+}
 export type ProjectCardProps = {
   title: string;
   description: string;

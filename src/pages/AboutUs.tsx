@@ -5,20 +5,51 @@ import commitmentIcon from "../assets/Commitment.webp";
 import excellenceIcon from "../assets/Excellence.webp";
 import dedicationIcon from "../assets/dedication.webp";
 
-/**
- * AboutUs - Modern, clean, and performance-optimized layout
- * 
- * Features:
- * - Fully responsive design with elegant transitions
- * - Optimized for all screen sizes
- * - Clean component structure with proper separation of concerns
- * - Improved accessibility
- * - Enhanced visual appeal with subtle animations
- */
-
-/* ---------- Data / Types ---------- */
-
-/* ---------- Presentational components ---------- */
+// SVG dos 3 triângulos — laterais transparentes, central azul destacado, base mais baixa
+function TrianglesLogoSVG({
+  className = "",
+  style = {},
+  leftRightOpacity = "0.08",
+  centerOpacity = "0.13",
+}: {
+  className?: string;
+  style?: React.CSSProperties;
+  leftRightOpacity?: string;
+  centerOpacity?: string;
+}) {
+  return (
+    <svg
+      className={className}
+      style={style}
+      viewBox="0 0 400 250"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      <polygon
+        points="32,218 120,70 208,218"
+        stroke="#222"
+        strokeWidth="7"
+        fill="none"
+        opacity={leftRightOpacity}
+      />
+      <polygon
+        points="192,218 280,70 368,218"
+        stroke="#222"
+        strokeWidth="7"
+        fill="none"
+        opacity={leftRightOpacity}
+      />
+      <polygon
+        points="80,235 200,35 320,235"
+        stroke="#0086c5"
+        strokeWidth="13"
+        fill="none"
+        opacity={centerOpacity}
+      />
+    </svg>
+  );
+}
 
 /* Enhanced rating stars component with improved animation */
 function RatingStars({ rating }: { rating: number }) {
@@ -48,19 +79,17 @@ function RatingStars({ rating }: { rating: number }) {
 function TestimonialCarousel({ testimonials, themeColor }: { testimonials: Testimonial[]; themeColor: string }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
-  
-  // Auto-rotation with pause on hover
+
   useEffect(() => {
     const interval = setInterval(() => {
       setIsAnimating(true);
       setActiveIndex((current) => (current + 1) % testimonials.length);
       setTimeout(() => setIsAnimating(false), 500);
     }, 5000);
-    
+
     return () => clearInterval(interval);
   }, [testimonials.length]);
 
-  // Navigation handlers
   const handlePrev = () => {
     if (isAnimating) return;
     setIsAnimating(true);
@@ -75,7 +104,6 @@ function TestimonialCarousel({ testimonials, themeColor }: { testimonials: Testi
     setTimeout(() => setIsAnimating(false), 500);
   };
 
-  // Group testimonials for desktop view (3 at a time)
   const getVisibleGroup = (startIndex: number) => {
     const group = testimonials.slice(startIndex, startIndex + 3);
     if (group.length < 3) {
@@ -83,8 +111,7 @@ function TestimonialCarousel({ testimonials, themeColor }: { testimonials: Testi
     }
     return group;
   };
-  
-  // Get current visible testimonials
+
   const visibleTestimonials = getVisibleGroup(activeIndex);
 
   return (
@@ -105,7 +132,6 @@ function TestimonialCarousel({ testimonials, themeColor }: { testimonials: Testi
               </svg>
             </button>
           </div>
-          
           {/* Desktop navigation buttons - Next */}
           <div className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10">
             <button
@@ -119,35 +145,29 @@ function TestimonialCarousel({ testimonials, themeColor }: { testimonials: Testi
               </svg>
             </button>
           </div>
-          
           <div className="grid md:grid-cols-3 gap-6 mb-6">
             {visibleTestimonials.map((testimonial, idx) => (
-              <div 
-                key={`desktop-${activeIndex + idx}`} 
+              <div
+                key={`desktop-${activeIndex + idx}`}
                 className="bg-gray-50 rounded-lg p-5 shadow-sm transition-all duration-300 hover:shadow-md"
-                style={{ 
+                style={{
                   borderTop: `3px solid ${themeColor}`,
                   height: "100%",
                   display: "flex",
-                  flexDirection: "column"
+                  flexDirection: "column",
                 }}
               >
                 {/* Quote icon */}
-                <svg 
-                  className="w-8 h-8 mb-3 text-gray-200" 
+                <svg
+                  className="w-8 h-8 mb-3 text-gray-200"
                   fill="currentColor"
                   viewBox="0 0 24 24"
                 >
                   <path d="M14.017 18L14.017 10.609C14.017 4.905 17.748 1.039 23 0L23.995 2.151C21.563 3.068 20 5.789 20 8H24V18H14.017ZM0 18V10.609C0 4.905 3.748 1.038 9 0L9.996 2.151C7.563 3.068 6 5.789 6 8H9.983L9.983 18L0 18Z" />
                 </svg>
-                
-                {/* Testimonial text */}
                 <p className="text-gray-700 italic mb-4 flex-grow">{testimonial.text}</p>
-                
-                {/* Footer with client info */}
                 <div className="flex items-center mt-auto pt-4 border-t border-gray-200">
-                  {/* Avatar placeholder with first letter */}
-                  <div 
+                  <div
                     className="w-10 h-10 rounded-full flex items-center justify-center mr-3 text-white"
                     style={{ backgroundColor: themeColor }}
                   >
@@ -166,14 +186,13 @@ function TestimonialCarousel({ testimonials, themeColor }: { testimonials: Testi
             ))}
           </div>
         </div>
-        
-        {/* Desktop indicator dots - NEW STYLE */}
+        {/* Desktop indicator dots */}
         <div className="flex justify-center mt-8 space-x-2">
           {testimonials.map((_, index) => (
             <button
               key={index}
               className={`transition-all duration-200 rounded-full ${
-                index === activeIndex ? 'w-8 h-2' : 'w-2 h-2 opacity-40'
+                index === activeIndex ? "w-8 h-2" : "w-2 h-2 opacity-40"
               }`}
               style={{ backgroundColor: themeColor }}
               onClick={() => {
@@ -183,39 +202,33 @@ function TestimonialCarousel({ testimonials, themeColor }: { testimonials: Testi
                 setTimeout(() => setIsAnimating(false), 500);
               }}
               aria-label={`View testimonial ${index + 1}`}
-            >
-            </button>
+            ></button>
           ))}
         </div>
       </div>
-      
-      {/* Mobile view: Single card with navigation */}
+      {/* Mobile view */}
       <div className="md:hidden">
         <div className="relative overflow-hidden">
-          <div 
+          <div
             className="transition-all duration-500 ease-out"
-            style={{ transform: isAnimating ? 'scale(0.95)' : 'scale(1)' }}
+            style={{ transform: isAnimating ? "scale(0.95)" : "scale(1)" }}
           >
-            <div 
+            <div
               className="bg-gray-50 rounded-lg p-5 shadow-md"
               style={{ borderTop: `3px solid ${themeColor}` }}
             >
-              {/* Quote icon */}
-              <svg 
-                className="w-8 h-8 mb-3 text-gray-200" 
+              <svg
+                className="w-8 h-8 mb-3 text-gray-200"
                 fill="currentColor"
                 viewBox="0 0 24 24"
               >
                 <path d="M14.017 18L14.017 10.609C14.017 4.905 17.748 1.039 23 0L23.995 2.151C21.563 3.068 20 5.789 20 8H24V18H14.017ZM0 18V10.609C0 4.905 3.748 1.038 9 0L9.996 2.151C7.563 3.068 6 5.789 6 8H9.983L9.983 18L0 18Z" />
               </svg>
-              
-              {/* Testimonial text */}
-              <p className="text-gray-700 italic mb-4">{testimonials[activeIndex].text}</p>
-              
-              {/* Footer with client info */}
+              <p className="text-gray-700 italic mb-4">
+                {testimonials[activeIndex].text}
+              </p>
               <div className="flex items-center mt-4 pt-4 border-t border-gray-200">
-                {/* Avatar placeholder with first letter */}
-                <div 
+                <div
                   className="w-10 h-10 rounded-full flex items-center justify-center mr-3 text-white"
                   style={{ backgroundColor: themeColor }}
                 >
@@ -232,15 +245,18 @@ function TestimonialCarousel({ testimonials, themeColor }: { testimonials: Testi
               </div>
             </div>
           </div>
-          
-          {/* Mobile navigation buttons */}
           <button
             className="absolute top-1/2 -left-3 transform -translate-y-1/2 bg-white w-8 h-8 rounded-full shadow-md flex items-center justify-center focus:outline-none"
             onClick={handlePrev}
             aria-label="Previous testimonial"
           >
             <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M15 19l-7-7 7-7"
+              />
             </svg>
           </button>
           <button
@@ -249,18 +265,21 @@ function TestimonialCarousel({ testimonials, themeColor }: { testimonials: Testi
             aria-label="Next testimonial"
           >
             <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 5l7 7-7 7"
+              />
             </svg>
           </button>
         </div>
-        
-        {/* Indicator dots */}
         <div className="flex justify-center mt-6 space-x-2">
           {testimonials.map((_, index) => (
             <button
               key={index}
               className={`w-2 h-2 rounded-full transition-all duration-200 ${
-                index === activeIndex ? 'w-5' : 'opacity-40'
+                index === activeIndex ? "w-5" : "opacity-40"
               }`}
               style={{ backgroundColor: themeColor }}
               onClick={() => {
@@ -289,13 +308,7 @@ function AboutUs({
   themeColor?: string;
 }) {
   const pillars = defaultPillars();
-  // WebP icons for each pillar (order must match pillars array)
-  const icons = [
-    commitmentIcon,
-    excellenceIcon,
-    dedicationIcon,
-  ];
-  // Use provided testimonials or fall back to default ones
+  const icons = [commitmentIcon, excellenceIcon, dedicationIcon];
   const displayTestimonials = externalTestimonials || testimonials;
 
   return (
@@ -306,34 +319,48 @@ function AboutUs({
       role="region"
       style={{ scrollMarginTop: "96px" }}
     >
-      {/* Background pattern elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-32 -right-32 w-64 h-64 rounded-full opacity-10" style={{ backgroundColor: themeColor }}></div>
-        <div className="absolute top-1/3 -left-20 w-40 h-40 rounded-full opacity-5" style={{ backgroundColor: themeColor }}></div>
-        <div className="absolute bottom-20 right-10 w-24 h-24 rounded-full opacity-5" style={{ backgroundColor: themeColor }}></div>
-        <div className="absolute -bottom-10 left-1/3 w-32 h-32 rounded-full opacity-10" style={{ backgroundColor: themeColor }}></div>
-      </div>
+      {/* Triângulos/logo espalhados como enfeite de fundo - blobs removidos */}
+      <TrianglesLogoSVG
+        className="absolute top-8 left-12 w-28 z-0 pointer-events-none select-none"
+      />
+      <TrianglesLogoSVG
+        className="absolute top-[40%] right-12 w-32 z-0 pointer-events-none select-none"
+        style={{ transform: "rotate(-10deg)" }}
+      />
+      <TrianglesLogoSVG
+        className="absolute bottom-20 left-1/3 w-28 z-0 pointer-events-none select-none"
+        style={{ transform: "rotate(-16deg)" }}
+      />
+      <TrianglesLogoSVG
+        className="absolute bottom-10 right-8 w-40 z-0 pointer-events-none select-none"
+        style={{ transform: "rotate(17deg) scaleX(-1)" }}
+      />
 
       <div className="container mx-auto px-4 md:px-6 lg:px-8 relative z-10">
         {/* Main header section with subtle design elements */}
         <div className="text-center mb-10 md:mb-14">
           <div className="inline-flex items-center justify-center mb-3">
             <div className="h-px w-6 bg-gray-300"></div>
-            <span 
-              className="mx-3 text-sm font-semibold tracking-wider uppercase bg-clip-text text-transparent bg-gradient-to-r" 
-              style={{ backgroundImage: `linear-gradient(to right, ${themeColor}, #4C6EF5)` }}
+            <span
+              className="mx-3 text-sm font-semibold tracking-wider uppercase bg-clip-text text-transparent bg-gradient-to-r"
+              style={{
+                backgroundImage: `linear-gradient(to right, ${themeColor}, #4C6EF5)`,
+              }}
             >
               Our Story
             </span>
             <div className="h-px w-6 bg-gray-300"></div>
           </div>
-          <h2 
-            id="aboutus-title" 
+          <h2
+            id="aboutus-title"
             className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-gray-800"
           >
             About <span style={{ color: themeColor }}>MGM Aluminum</span>
           </h2>
-          <div className="w-24 h-1 mx-auto rounded-full" style={{ backgroundColor: themeColor }}></div>
+          <div
+            className="w-24 h-1 mx-auto rounded-full"
+            style={{ backgroundColor: themeColor }}
+          ></div>
         </div>
 
         {/* Content container with more visual appeal */}
@@ -344,15 +371,19 @@ function AboutUs({
               {/* Left: Image with stats */}
               <div className="md:w-1/2 relative">
                 <div className="h-full">
-                  <img
-                    src={imageSrc}
-                    alt="MGM Aluminum team installing seamless gutters"
-                    loading="lazy"
-                    decoding="async"
-                    className="w-full h-full object-cover"
-                    style={{ minHeight: "400px", objectPosition: "14% 0%" }}
-                  />
-                  
+          <img
+  src={imageSrc}
+  alt="MGM Aluminum team installing seamless gutters"
+  loading="lazy"
+  decoding="async"
+  className="w-full h-full object-cover"
+  style={{
+    minHeight: "400px",
+    objectPosition: "14% -30px",  // foque mais para cima da imagem
+    marginTop: "-66px",           // sobe a imagem inteira (ajuste como quiser)
+  }}
+/>
+
                   {/* Floating stats cards with improved visual styling */}
                   <div className="absolute left-0 right-0 bottom-0 backdrop-blur-md bg-white/85 p-6 border-t border-gray-100 shadow-inner">
                     <div className="grid grid-cols-3 gap-4">
@@ -372,7 +403,7 @@ function AboutUs({
                   </div>
                 </div>
               </div>
-              
+
               {/* Right: Our story content */}
               <div className="md:w-1/2 p-6 md:p-10 flex flex-col justify-center">
                 <div className="inline-block mb-4 px-3 py-1 rounded-full text-sm font-medium" style={{ backgroundColor: `${themeColor}15`, color: themeColor }}>Our Journey</div>
@@ -398,15 +429,14 @@ function AboutUs({
               </p>
               <div className="w-16 h-1 mx-auto mt-3 rounded-full" style={{ backgroundColor: themeColor }}></div>
             </div>
-            
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {pillars.map((p, i) => (
-                <div 
-                  key={p.title} 
+                <div
+                  key={p.title}
                   className="bg-white rounded-xl shadow-md p-8 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 flex flex-col"
                   style={{ borderTop: `4px solid ${themeColor}` }}
                 >
-                  <div 
+                  <div
                     className="w-16 h-16 rounded-lg flex items-center justify-center mb-6 mx-auto bg-white"
                     style={{ backgroundColor: `${themeColor}10` }}
                   >
@@ -431,12 +461,10 @@ function AboutUs({
                 </p>
                 <div className="w-16 h-1 mx-auto mt-3 rounded-full" style={{ backgroundColor: themeColor }}></div>
               </div>
-              
               <TestimonialCarousel testimonials={displayTestimonials} themeColor={themeColor} />
             </div>
           </div>
         </div>
-
       </div>
     </section>
   );
