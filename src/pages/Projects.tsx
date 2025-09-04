@@ -1,7 +1,6 @@
 import React from "react";
 import { projects } from "../data/projects";
 import type { ProjectCardProps } from "../types/global";
-import ZoomImage from "../components/ZoomImage";
 
 // SVG Logo dos Triângulos como componente reutilizável - AGORA COM BASE MAIS BAIXA NO TRIÂNGULO DO MEIO!
 function TrianglesLogoSVG({ className = "", style = {} }: { className?: string; style?: React.CSSProperties }) {
@@ -54,15 +53,11 @@ function ProjectCard({ title, description, images, isActive }: ProjectCardProps)
       <div className="group bg-white border border-primary/10 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden flex flex-col">
         <div className="relative w-full aspect-[4/3] overflow-hidden">
           <div onClick={openModal}>
-            <ZoomImage
+            <img
               src={images[idx]}
               alt={title}
-              zoomSize={100}
-              zoomScale={3}
-              className="w-full h-full object-cover cursor-pointer"
-              borderColor="#0086c5"
-              borderWidth={2}
-              shadowColor="#0086c555"
+              className="w-full h-full object-cover cursor-pointer group-hover:scale-105 transition-transform duration-500"
+              loading="lazy"
             />
           </div>
           <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-70 pointer-events-none" />
@@ -102,15 +97,11 @@ function ProjectCard({ title, description, images, isActive }: ProjectCardProps)
                 </svg>
               </button>
             )}
-            <ZoomImage
+            <img
               src={images[modalIdx]}
               alt={title}
-              zoomSize={150}
-              zoomScale={4}
               className="w-full max-h-[80vh] object-contain rounded-2xl shadow-2xl animate-fadeIn"
-              borderColor="#0086c5"
-              borderWidth={2}
-              shadowColor="#0086c555"
+              draggable={false}
             />
             {images.length > 1 && (
               <button

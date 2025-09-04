@@ -5,6 +5,7 @@ import commitmentIcon from "../assets/Commitment.webp";
 import excellenceIcon from "../assets/Excellence.webp";
 import dedicationIcon from "../assets/dedication.webp";
 
+
 // SVG dos 3 triângulos — laterais transparentes, central azul destacado, base mais baixa
 function TrianglesLogoSVG({
   className = "",
@@ -379,8 +380,8 @@ function AboutUs({
   className="w-full h-full object-cover"
   style={{
     minHeight: "400px",
-    objectPosition: "14% -30px",  // foque mais para cima da imagem
-    marginTop: "-66px",           // sobe a imagem inteira (ajuste como quiser)
+    objectPosition: "14% 30%",  // posição central para mostrar o caminhão inteiro
+    marginTop: "-100px",            // removido o deslocamento negativo
   }}
 />
 

@@ -1,5 +1,5 @@
 import type { Pill, Testimonial } from "../types/global";
-import aboutUsImg from "../assets/aboutus copy.png";
+import aboutUsImg from "../assets/aboutus.webp";
 
 export const defaultPillars = (): Pill[] => [
   {
