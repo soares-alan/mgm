@@ -98,7 +98,7 @@ export const testimonials: Testimonial[] = [
 export const aboutParagraphs = [
   "The story of MGM Aluminum began with humble beginnings. Our founder started out as a simple helper on job sites, learning the trade step by step. It was during those early days that he discovered his true passion: gutter installation and home protection.",
   "With dedication, hard work, and a vision to do better, he gradually built his own company from the ground up. What started as one man's dream has now grown into a trusted business that has served more than 18,000 homes across Florida since 2017.",
-  "At MGM Aluminum, we believe that passion and experience make the difference. That is why our team is 100 percent our own staff — never outsourced, ensuring the same commitment to quality and care that our founder had on his very first job.",
+  "At MGM Aluminum, we believe that passion and experience make the difference. That is why our team is 100% our own staff — never outsourced, ensuring the same commitment to quality and care that our founder had on his very first job.",
 ];
 
 export { aboutUsImg };

@@ -1,6 +1,7 @@
 import React from "react";
 import { projects } from "../data/projects";
 import type { ProjectCardProps } from "../types/global";
+import ZoomImage from "../components/ZoomImage";
 
 // SVG Logo dos Triângulos como componente reutilizável - AGORA COM BASE MAIS BAIXA NO TRIÂNGULO DO MEIO!
 function TrianglesLogoSVG({ className = "", style = {} }: { className?: string; style?: React.CSSProperties }) {
@@ -52,14 +53,18 @@ function ProjectCard({ title, description, images, isActive }: ProjectCardProps)
     <>
       <div className="group bg-white border border-primary/10 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden flex flex-col">
         <div className="relative w-full aspect-[4/3] overflow-hidden">
-          <img
-            src={images[idx]}
-            alt={title}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 cursor-pointer"
-            loading="lazy"
-            onClick={openModal}
-            style={{ cursor: 'pointer' }}
-          />
+          <div onClick={openModal}>
+            <ZoomImage
+              src={images[idx]}
+              alt={title}
+              zoomSize={100}
+              zoomScale={3}
+              className="w-full h-full object-cover cursor-pointer"
+              borderColor="#0086c5"
+              borderWidth={2}
+              shadowColor="#0086c555"
+            />
+          </div>
           <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-70 pointer-events-none" />
           {images.length > 1 && (
             <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1 z-10">
@@ -97,11 +102,15 @@ function ProjectCard({ title, description, images, isActive }: ProjectCardProps)
                 </svg>
               </button>
             )}
-            <img
+            <ZoomImage
               src={images[modalIdx]}
               alt={title}
+              zoomSize={150}
+              zoomScale={4}
               className="w-full max-h-[80vh] object-contain rounded-2xl shadow-2xl animate-fadeIn"
-              draggable={false}
+              borderColor="#0086c5"
+              borderWidth={2}
+              shadowColor="#0086c555"
             />
             {images.length > 1 && (
               <button
@@ -201,7 +210,7 @@ export default function Projects() {
           ))}
         </div>
         <p className="text-sm text-gray-500 max-w-2xl mx-auto mt-8 text-center leading-relaxed">
-          Discover our seamless gutter, soffit, and fascia installations—completed with precision and attention to detail. Every project reflects our experience, quality, and commitment to protecting and enhancing homes across Florida.
+          Discover our seamless gutter, soffit, and fascia installations completed with precision and attention to detail. Every project reflects our experience, quality, and commitment to protecting and enhancing homes across Florida.
         </p>
       </div>
     </section>

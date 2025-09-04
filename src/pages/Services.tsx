@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React from "react";
 
 import qualityIcon from "../assets/quality.webp";
 import insuranceIcon from "../assets/insurance.webp";
@@ -6,6 +6,7 @@ import guaranteeIcon from "../assets/guarantee.webp";
 import browserImg from "../assets/color chart.webp";
 
 import { servicesData } from "../data/services";
+import ZoomImage from "../components/ZoomImage";
 
 // SVG dos 3 triângulos, com transparência/opacidade nos inferiores
 function TrianglesLogoSVG({
@@ -59,80 +60,7 @@ function TrianglesLogoSVG({
 export default function Services() {
   const themeColor = "#0086c5";
 
-  // Magnifier state and logic
-  const [magnifierSize, setMagnifierSize] = useState(120);
-  const [zoom, setZoom] = useState(3);
-  const [showMagnifier, setShowMagnifier] = useState(false);
-  const [shouldClose, setShouldClose] = useState(false);
-  const [magnifierPos, setMagnifierPos] = useState({ x: 0, y: 0 });
-  const imgRef = useRef<HTMLImageElement | null>(null);
-  const [isMobile, setIsMobile] = useState(false);
-
-  React.useEffect(() => {
-    setIsMobile(
-      typeof window !== "undefined" &&
-        ("ontouchstart" in window || navigator.maxTouchPoints > 0)
-    );
-  }, []);
-
-  React.useEffect(() => {
-    if (isMobile) {
-      setMagnifierSize(80);
-      setZoom(4.5);
-    } else {
-      setMagnifierSize(120);
-      setZoom(3);
-    }
-  }, [isMobile]);
-
-  function handleMouseMove(e: React.MouseEvent<HTMLImageElement, MouseEvent>) {
-    if (!imgRef.current) return;
-    const { left, top, width, height } = imgRef.current.getBoundingClientRect();
-    let x = e.clientX - left;
-    let y = e.clientY - top;
-    const radius = magnifierSize / 2 / zoom;
-    x = Math.max(radius, Math.min(x, width - radius));
-    y = Math.max(radius, Math.min(y, height - radius));
-    setMagnifierPos({ x, y });
-  }
-
-  function handleTouchStart(e: React.TouchEvent<HTMLImageElement>) {
-    if (!imgRef.current) return;
-    if (!showMagnifier) {
-      const touch = e.touches[0];
-      const { left, top, width, height } = imgRef.current.getBoundingClientRect();
-      let x = touch.clientX - left;
-      let y = touch.clientY - top;
-      const radius = magnifierSize / 2 / zoom;
-      x = Math.max(radius, Math.min(x, width - radius));
-      y = Math.max(radius, Math.min(y, height - radius));
-      setMagnifierPos({ x, y });
-      setShowMagnifier(true);
-      setShouldClose(false);
-    } else {
-      setShouldClose(true);
-    }
-  }
-
-  function handleTouchMove(e: React.TouchEvent<HTMLImageElement>) {
-    if (!imgRef.current || !showMagnifier) return;
-    setShouldClose(false);
-    const touch = e.touches[0];
-    const { left, top, width, height } = imgRef.current.getBoundingClientRect();
-    let x = touch.clientX - left;
-    let y = touch.clientY - top;
-    const radius = magnifierSize / 2 / zoom;
-    x = Math.max(radius, Math.min(x, width - radius));
-    y = Math.max(radius, Math.min(y, height - radius));
-    setMagnifierPos({ x, y });
-  }
-
-  function handleTouchEnd() {
-    if (shouldClose) {
-      setShowMagnifier(false);
-      setShouldClose(false);
-    }
-  }
+  // Theme color usado em múltiplos lugares
 
   return (
     <section
@@ -151,11 +79,11 @@ export default function Services() {
         style={{ transform: "rotate(-10deg)" }}
       />
       <TrianglesLogoSVG
-        className="absolute bottom-20 left-1/3 w-28 z-0 pointer-events-none select-none"
+        className="absolute bottom-4 w-32 z-0 pointer-events-none select-none"
         style={{ transform: "rotate(-16deg)" }}
       />
       <TrianglesLogoSVG
-        className="absolute bottom-10 right-8 w-40 z-0 pointer-events-none select-none"
+        className="absolute bottom-40 right-8 w-28 z-0 pointer-events-none select-none"
         style={{ transform: "rotate(17deg) scaleX(-1)" }}
       />
 
@@ -241,45 +169,17 @@ export default function Services() {
           <p className="text-lg text-[#444] mb-6 text-center max-w-xl">
             Hover your mouse or tap a color to zoom in and explore the details.
           </p>
-          <div className="relative w-full flex justify-center">
-            <img
-              ref={imgRef}
+          <div className="w-full flex justify-center">
+            <ZoomImage
               src={browserImg}
               alt="Color Options"
-              className="w-full max-w-4xl rounded-tl-[48px] rounded-br-[48px] rounded-tr-md rounded-bl-md object-contain border-2 border-primary cursor-zoom-in relative z-10"
-              style={{ background: "none" } as React.CSSProperties}
-              onMouseEnter={!isMobile ? () => setShowMagnifier(true) : undefined}
-              onMouseLeave={!isMobile ? () => setShowMagnifier(false) : undefined}
-              onMouseMove={!isMobile ? handleMouseMove : undefined}
-              onTouchStart={isMobile ? handleTouchStart : undefined}
-              onTouchMove={isMobile ? handleTouchMove : undefined}
-              onTouchEnd={isMobile ? handleTouchEnd : undefined}
+              zoomSize={120}
+              zoomScale={4}
+              className="w-full max-w-4xl rounded-tl-[48px] rounded-br-[48px] rounded-tr-md rounded-bl-md border-2 border-primary"
+              borderColor="#0086c5"
+              borderWidth={3}
+              shadowColor="#0086c555"
             />
-            {/* Magnifier glass */}
-            {showMagnifier && imgRef.current && (
-              <div
-                style={{
-                  position: "absolute",
-                  pointerEvents: "none",
-                  left: isMobile
-                    ? `${magnifierPos.x - magnifierSize / 2}px`
-                    : `${magnifierPos.x + magnifierSize * 0.1}px`,
-                  top: `${magnifierPos.y - magnifierSize * 0.5}px`,
-                  width: magnifierSize,
-                  height: magnifierSize,
-                  borderRadius: "50%",
-                  boxShadow: "0 2px 16px 0 #0086c555",
-                  border: "3px solid #0086c5",
-                  background: `url(${imgRef.current.src}) no-repeat`,
-                  backgroundSize: `${imgRef.current.width * zoom}px ${imgRef.current.height * zoom}px`,
-                  backgroundPosition: isMobile
-                    ? `-${magnifierPos.x * zoom - magnifierSize / 2}px -${magnifierPos.y * zoom - magnifierSize / 2}px`
-                    : `-${magnifierPos.x * zoom - magnifierSize / 2}px -${magnifierPos.y * zoom - magnifierSize / 2}px`,
-                  zIndex: 30,
-                  transition: "box-shadow 0.2s",
-                } as React.CSSProperties}
-              />
-            )}
           </div>
         </div>
 
@@ -320,7 +220,7 @@ export default function Services() {
         {/* Lista de cidades atendidas */}
         <div className="mt-12 text-center">
           <h3 className="text-2xl font-bold text-[#222] mb-2">We Service Florida</h3>
-          <p className="mb-6 text-[#444]">Atendemos as principais cidades da região:</p>
+          <p className="mb-6 text-[#444]">We serve the major cities in the region</p>
           <div className="flex flex-wrap justify-center gap-2 mb-8">
             {[
               "Tampa", "Brandon", "Lakeland", "Wesley Chapel", "Plant City", "Zephyrhills", "Lithia", "Seffner", "Temple Terrace", "Thonotosassa", "Riverview", "Clearwater", "Saint Petersburg", "Apollo Beach", "Bradenton", "Ruskin", "Sun City Center", "Land O Lakes", "Tarpon Springs", "Palm Harbor", "Sarasota", "Venice", "Lakewood Ranch", "Englewood", "Tampa Bay", "Palmetto", "Ellenton"

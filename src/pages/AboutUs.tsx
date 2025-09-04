@@ -457,7 +457,7 @@ function AboutUs({
                   What Our Clients Say
                 </h3>
                 <p className="text-gray-600 max-w-2xl mx-auto">
-                  Don't just take our word for it - here's what our satisfied clients have to say.
+                  Don't just take our word for it, here's what our satisfied clients have to say.
                 </p>
                 <div className="w-16 h-1 mx-auto mt-3 rounded-full" style={{ backgroundColor: themeColor }}></div>
               </div>

@@ -22,7 +22,7 @@ export default function FAQ({ faqs }: FAQProps) {
           <h2 id="faq-title" className="text-3xl md:text-4xl font-bold text-primary drop-shadow-sm">FAQs</h2>
         </div>
        <p className="text-base text-gray-700 max-w-xl mx-auto text-center">
-  Your questions about gutters, soffit, and fascia—answered simply.
+  Your questions about gutters, soffit, and fascia answered simply.
 </p>
       </div>
       <div className="max-w-2xl mx-auto">
